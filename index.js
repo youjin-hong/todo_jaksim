@@ -54,5 +54,7 @@ async function start() {
   });
 }
 start();
+
+export default app;
 // 이제 nodemon index.js로 실행하면 됨
 // server.js는 이제 삭제해도 무방 이제 그냥 백업본이라고 생각하기
