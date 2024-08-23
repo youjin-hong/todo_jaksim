@@ -6,12 +6,12 @@
 let db;
 
 class Post {
-  static async injectDB(conn) {
+  static async injectDB(client) {
     if(db) {
       return;
     }
     try {
-      db = conn.db("todo");
+      db = client.db("todo");
       await client.connect();
     } catch (e) {
       console.error("DB 연결 실패..!", e);
@@ -26,6 +26,7 @@ class Post {
       // .limit(3) // 필요시 주석 해제
       .toArray();
   }
+  
   static async create(postData) {
     return await db.collection("posts").insertOne(postData);
   }
