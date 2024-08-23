@@ -28,10 +28,9 @@ export const createPost = async (req, res) => {
 };
 // TODO: Post.create() -> 완료
 
-export const deletePost = async (req, res) => {
-  async (req, res) => {
-    // console.log(req.params.id);
-
+export const deletePost = async (req, res) =>
+  // console.log(req.params.id);
+  {
     const _id = new ObjectId(req.params.id);
     try {
       const result = await Post.delete(_id);
@@ -49,68 +48,61 @@ export const deletePost = async (req, res) => {
       res.status(500).json({ message: "서버 에러" });
     }
   };
-};
 // TODO: Post.delete()
 
 export const getPostDetails = async (req, res) => {
-  async (req, res) => {
-    const _id = new ObjectId(req.params.id);
-    try {
-      const post = await Post.getOne(_id);
-      if (!post) {
-        return res.status(404).send("게시물을 찾을 수 없습니다.");
-      }
-      res.render("detail", { post });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("서버 오류가 발생했습니다.");
+  const _id = new ObjectId(req.params.id);
+  try {
+    const post = await Post.getOne(_id);
+    if (!post) {
+      return res.status(404).send("게시물을 찾을 수 없습니다.");
     }
-  };
+    res.render("detail", { post });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("서버 오류가 발생했습니다.");
+  }
 };
 // TODO: Post.getOne()
 
 export const getEditPost = async (req, res) => {
-  async (req, res) => {
-    const _id = new ObjectId(req.params.id);
-    try {
-      const post = await Post.getOne(_id);
-      if (!post) {
-        return res.status(404).send("게시물을 찾을 수 없습니다.");
-      }
-      res.render("edit", { post });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("서버 오류가 발생했습니다.");
+  const _id = new ObjectId(req.params.id);
+  try {
+    const post = await Post.getOne(_id);
+    if (!post) {
+      return res.status(404).send("게시물을 찾을 수 없습니다.");
     }
-  };
+    res.render("edit", { post });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("서버 오류가 발생했습니다.");
+  }
 };
 // TODO: Post.getOne();
 
 export const updatePost = async (req, res) => {
-  async (req, res) => {
-    const _id = new ObjectId(req.params.id);
-    // const { title, dateOfGoals, dateOfCreate, todoDetail } = req.body;
+  const _id = new ObjectId(req.params.id);
+  // const { title, dateOfGoals, dateOfCreate, todoDetail } = req.body;
 
-    try {
-      const result = await Post.update(_id, req.body);
+  try {
+    const result = await Post.update(_id, req.body);
 
-      if (result.modifiedCount === 1) {
-        // 수정 성공 시 JSON 응답으로 리다이렉트 정보 전달
-        res.json({
-          success: true,
-          message: "수정 완료",
-          redirectUrl: `/detail/${_id.toString()}`,
-        });
-      } else {
-        res.status(404).json({
-          success: false,
-          message: "게시물을 찾을 수 없습니다.",
-        });
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ success: false, message: "서버 오류" });
+    if (result.modifiedCount === 1) {
+      // 수정 성공 시 JSON 응답으로 리다이렉트 정보 전달
+      res.json({
+        success: true,
+        message: "수정 완료",
+        redirectUrl: `/detail/${_id.toString()}`,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "게시물을 찾을 수 없습니다.",
+      });
     }
-  };
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "서버 오류" });
+  }
 };
 // TODO: Post.update()
